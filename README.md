@@ -51,11 +51,55 @@ Step 3 - Add 5G Core (Open5GS)
 [Open5GS Website](https://open5gs.org/open5gs/docs/)
 3.1 - Installation
 
+
+3.1.1 - Install MongoDB
+```bash
+$ sudo apt update
+$ sudo apt install gnupg
+$ curl -fsSL https://pgp.mongodb.com/server-8.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-8.0.gpg --dearmor
+```
+
+Create the list file /etc/apt/sources/list.d/mongodb-org-8.0.list for your version of **Ubuntu**
+```bash
+$ echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/8.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-8.0.list
+```
+
+
+3.1.2 - Install Open5GS
 ```bash
 sudo add-apt-repository ppa:open5gs/latest
 sudo apt update
 sudo apt install open5gs
 ```
+
+3.1.3 - Install the WebUI of Open5GS
+Install Node.js first.
+```bash
+# Download and import the Nodesource GPG key
+ $ sudo apt update
+ $ sudo apt install -y ca-certificates curl gnupg
+ $ sudo mkdir -p /etc/apt/keyrings
+ $ curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+ # Create deb repository
+ $ NODE_MAJOR=20
+ $ echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+
+ # Run Update and Install
+ $ sudo apt update
+ $ sudo apt install nodejs -y
+```
+
+Install WebUI of Open5GS:
+```bash
+$ curl -fsSL https://open5gs.org/open5gs/assets/webui/install | sudo -E bash -
+```
+
+Now you can access the web page via:
+`https://localhost:9999`
+Login with:
+Username: admin
+Password: 1423
 
 3.2 Configure Open5GS
 Out of the box, the default configurations see all of the Open5GS components fully configured for use on a single computer. They are set to communicate with each other using the local loopback address space (127.0.0.X). The default addresses for each of the bind interfaces for these components and functions are as follows:
